@@ -104,6 +104,25 @@
     }
   });
 </script>
+<div id="navbar"></div>
+
+<script>
+  async function loadNavbar() {
+    const res = await fetch('navbar.html');
+    const html = await res.text();
+    document.getElementById('navbar').innerHTML = html;
+  }
+
+  loadNavbar();
+  function logout() {
+  firebase.auth().signOut().then(() => {
+    window.location.href = 'login.html';
+  }).catch((err) => {
+    console.error(err);
+  });
+}
+
+</script>
 
 </body>
 </html>
