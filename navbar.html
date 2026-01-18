@@ -1,0 +1,29 @@
+<!-- navbar.html -->
+<nav class="bg-white shadow p-3 sticky top-0 z-40">
+  <div class="container mx-auto flex gap-3 items-center">
+    <a href="index.html" class="px-3 py-1 rounded hover:bg-gray-100" id="nav-home">🏠 Home</a>
+    <a href="generate.html" class="px-3 py-1 rounded hover:bg-gray-100" id="nav-generate">✍️ Generate</a>
+    <a href="history.html" class="px-3 py-1 rounded hover:bg-gray-100" id="nav-history">📜 History</a>
+    <a href="privacy-policy.html" class="px-3 py-1 rounded hover:bg-gray-100" id="nav-privacy">🔒 Privacy</a>
+    <a href="terms-and-conditions.html" class="px-3 py-1 rounded hover:bg-gray-100" id="nav-terms">📜 Terms</a>
+    <button onclick="logout()" class="ml-auto px-3 py-1 rounded bg-red-500 text-white hover:bg-red-600">Logout</button>
+  </div>
+</nav>
+
+<script>
+  // Highlight active page
+  const currentPath = window.location.pathname.split("/").pop();
+  const links = document.querySelectorAll("nav a");
+  links.forEach(link => {
+    if(link.getAttribute("href") === currentPath){
+      link.classList.add("bg-indigo-100", "font-bold");
+    }
+  });
+
+  // Firebase logout
+  function logout(){
+    firebase.auth().signOut().then(() => {
+      window.location.href = "login.html";
+    });
+  }
+</script>
