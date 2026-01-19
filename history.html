@@ -1,42 +1,39 @@
 <!doctype html>
 <html>
 <head>
-  <title>History</title>
+  <title>History – ZippyStay AI</title>
   <script src="https://cdn.tailwindcss.com"></script>
 </head>
-<body class="bg-gray-50 p-6">
+<body class="bg-gray-100 p-6">
+<!-- NAVBAR -->
+<nav class="bg-white shadow sticky top-0 z-50">
+  <div class="max-w-7xl mx-auto px-6 py-3 flex items-center justify-between">
 
-<div class="max-w-4xl mx-auto">
-  <h2 class="text-2xl font-bold mb-4">Generated History</h2>
+    <!-- LOGO -->
+    <a href="index.html" class="text-xl font-bold text-indigo-600">
+      ZippyStay AI
+    </a>
 
-  <div class="bg-white p-5 rounded shadow mb-4">
-    <h3 class="font-bold">Hotel Royal Stay – Dubai</h3>
-    <p class="text-sm text-gray-600">Luxury tone</p>
-    <p class="mt-2 text-gray-700">
-      Hotel Royal Stay is a premium luxury hotel in Dubai...
-    </p>
+    <!-- LINKS -->
+    <div class="space-x-5 text-gray-700 font-medium">
+      <a href="index.html" class="hover:text-indigo-600">Home</a>
+      <a href="dashboard.html" class="hover:text-indigo-600">Dashboard</a>
+      <a href="generate.html" class="hover:text-indigo-600">Generate</a>
+      <a href="history.html" class="hover:text-indigo-600">History</a>
+      <a href="login.html"
+         class="bg-indigo-600 text-white px-4 py-2 rounded-lg hover:bg-indigo-700">
+        Login
+      </a>
+    </div>
+
   </div>
+</nav>
 
+<h2 class="text-2xl font-bold mb-6">Generated History</h2>
+
+<div class="bg-white p-6 rounded-xl shadow">
+  <p class="text-gray-600">No records yet.</p>
 </div>
-<div id="navbar"></div>
-
-<script>
-  async function loadNavbar() {
-    const res = await fetch('navbar.html');
-    const html = await res.text();
-    document.getElementById('navbar').innerHTML = html;
-  }
-
-  loadNavbar();
-  function logout() {
-  firebase.auth().signOut().then(() => {
-    window.location.href = 'login.html';
-  }).catch((err) => {
-    console.error(err);
-  });
-}
-
-</script>
 
 </body>
 </html>
