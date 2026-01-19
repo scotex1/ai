@@ -1,51 +1,72 @@
 
 <!doctype html>
-<html>
+<html lang="en">
 <head>
+  <meta charset="UTF-8">
   <title>Dashboard – ZippyStay AI</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
   <script src="https://cdn.tailwindcss.com"></script>
+
+  <!-- Firebase SDKs -->
+  <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-auth-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore-compat.js"></script>
 </head>
-<body class="bg-gray-100">
+
+<body class="bg-gray-100 min-h-screen">
+
 <!-- NAVBAR -->
 <nav class="bg-white shadow sticky top-0 z-50">
   <div class="max-w-7xl mx-auto px-6 py-3 flex items-center justify-between">
-
-    <!-- LOGO -->
-    <a href="index.html" class="text-xl font-bold text-indigo-600">
-      ZippyStay AI
-    </a>
-
-    <!-- LINKS -->
-    <div class="space-x-5 text-gray-700 font-medium">
+    <a href="index.html" class="text-xl font-bold text-indigo-600">ZippyStay AI</a>
+    <div class="space-x-6 text-gray-700 font-medium">
       <a href="index.html" class="hover:text-indigo-600">Home</a>
       <a href="dashboard.html" class="hover:text-indigo-600">Dashboard</a>
       <a href="generate.html" class="hover:text-indigo-600">Generate</a>
       <a href="history.html" class="hover:text-indigo-600">History</a>
-      <a href="login.html"
-         class="bg-indigo-600 text-white px-4 py-2 rounded-lg hover:bg-indigo-700">
-        Login
-      </a>
+      <a href="#" id="logoutBtn" class="bg-red-600 text-white px-4 py-2 rounded-lg hover:bg-red-700">Logout</a>
     </div>
-
   </div>
 </nav>
 
-<nav class="bg-white shadow p-4 flex justify-between">
-  <span class="font-bold">Dashboard</span>
-  <a href="index.html" class="text-red-500">Logout</a>
-</nav>
+<!-- DASHBOARD CONTENT -->
+<div class="max-w-4xl mx-auto py-16 px-4">
+  <h1 class="text-3xl font-bold mb-6">Welcome, <span id="userName">User</span>!</h1>
+  <p class="text-gray-700 text-lg mb-8">You can generate AI hotel descriptions or view your history.</p>
 
-<div class="p-8 grid md:grid-cols-3 gap-6">
-  <a href="generate.html" class="bg-white p-6 rounded-xl shadow hover:scale-105 transition">
-    ✨ Generate Description
-  </a>
-  <a href="history.html" class="bg-white p-6 rounded-xl shadow hover:scale-105 transition">
-    📜 History
-  </a>
-  <div class="bg-white p-6 rounded-xl shadow">
-    💳 Plan: Free
+  <div class="flex gap-4">
+    <a href="generate.html" class="bg-indigo-600 text-white px-6 py-3 rounded-lg hover:bg-indigo-700">Generate Description</a>
+    <a href="history.html" class="bg-gray-200 px-6 py-3 rounded-lg hover:bg-gray-300">View History</a>
   </div>
 </div>
+
+<script>
+  // 🔹 Firebase Config
+  const firebaseConfig = {
+    apiKey: "YOUR_FIREBASE_API_KEY",
+    authDomain: "YOUR_PROJECT_ID.firebaseapp.com",
+    projectId: "YOUR_PROJECT_ID",
+    storageBucket: "YOUR_PROJECT_ID.appspot.com",
+    messagingSenderId: "SENDER_ID",
+    appId: "APP_ID"
+  };
+  firebase.initializeApp(firebaseConfig);
+  const auth = firebase.auth();
+
+  // 🔹 Check User Login
+  auth.onAuthStateChanged(user => {
+    if(user){
+      document.getElementById("userName").innerText = user.email;
+    } else {
+      window.location.href = "login.html";
+    }
+  });
+
+  // 🔹 Logout
+  document.getElementById("logoutBtn").addEventListener("click", () => {
+    auth.signOut().then(() => window.location.href="login.html");
+  });
+</script>
 
 </body>
 </html>
