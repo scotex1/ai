@@ -1,53 +1,129 @@
+
 <!doctype html>
-<html>
+<html lang="en">
 <head>
-  <title>Generate – ZippyStay AI</title>
+  <meta charset="UTF-8">
+  <title>Generate AI Description – ZippyStay AI</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
   <script src="https://cdn.tailwindcss.com"></script>
+
+  <!-- Firebase SDKs -->
+  <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-auth-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore-compat.js"></script>
+
 </head>
-<body class="bg-gray-100 p-6">
+<body class="bg-gray-100 min-h-screen">
+
 <!-- NAVBAR -->
 <nav class="bg-white shadow sticky top-0 z-50">
   <div class="max-w-7xl mx-auto px-6 py-3 flex items-center justify-between">
-
-    <!-- LOGO -->
-    <a href="index.html" class="text-xl font-bold text-indigo-600">
-      ZippyStay AI
-    </a>
-
-    <!-- LINKS -->
-    <div class="space-x-5 text-gray-700 font-medium">
+    <a href="index.html" class="text-xl font-bold text-indigo-600">ZippyStay AI</a>
+    <div class="space-x-6 text-gray-700 font-medium">
       <a href="index.html" class="hover:text-indigo-600">Home</a>
       <a href="dashboard.html" class="hover:text-indigo-600">Dashboard</a>
       <a href="generate.html" class="hover:text-indigo-600">Generate</a>
       <a href="history.html" class="hover:text-indigo-600">History</a>
-      <a href="login.html"
-         class="bg-indigo-600 text-white px-4 py-2 rounded-lg hover:bg-indigo-700">
-        Login
-      </a>
+      <a href="login.html" class="hover:text-indigo-600">Login</a>
+      <a href="signup.html" class="bg-indigo-600 text-white px-4 py-2 rounded-lg hover:bg-indigo-700">Sign Up</a>
     </div>
-
   </div>
 </nav>
 
-<h2 class="text-2xl font-bold mb-6">Generate Hotel Description</h2>
+<!-- AI GENERATOR FORM -->
+<div class="flex items-center justify-center py-16 px-4">
+  <div class="bg-white p-8 rounded-xl shadow-xl w-full max-w-lg">
+    <h2 class="text-2xl font-bold mb-6 text-center">Generate Hotel Description</h2>
 
-<div class="bg-white p-6 rounded-xl shadow max-w-xl">
-  <input class="w-full mb-4 px-4 py-2 border rounded" placeholder="Hotel Name">
-  <input class="w-full mb-4 px-4 py-2 border rounded" placeholder="City">
+    <input type="text" id="hotelName" placeholder="Hotel Name"
+      class="w-full mb-4 px-4 py-3 border rounded-lg focus:ring-2 focus:ring-indigo-400">
 
-  <textarea class="w-full mb-4 px-4 py-2 border rounded"
-    placeholder="Facilities (WiFi, Pool, Parking)"></textarea>
+    <input type="text" id="city" placeholder="City"
+      class="w-full mb-4 px-4 py-3 border rounded-lg focus:ring-2 focus:ring-indigo-400">
 
-  <select class="w-full mb-6 px-4 py-2 border rounded">
-    <option>Luxury</option>
-    <option>Budget</option>
-    <option>Family</option>
-  </select>
+    <textarea id="facilities" placeholder="Facilities (comma separated)"
+      class="w-full mb-4 px-4 py-3 border rounded-lg focus:ring-2 focus:ring-indigo-400"></textarea>
 
-  <button class="bg-indigo-600 text-white px-6 py-3 rounded-lg">
-    Generate
-  </button>
+    <select id="tone" class="w-full mb-6 px-4 py-3 border rounded-lg focus:ring-2 focus:ring-indigo-400">
+      <option value="">Select Tone</option>
+      <option value="Luxury">Luxury</option>
+      <option value="Budget">Budget</option>
+      <option value="Family">Family</option>
+    </select>
+
+    <button id="generateBtn"
+      class="w-full bg-indigo-600 text-white py-3 rounded-lg hover:bg-indigo-700 transition">
+      Generate Description
+    </button>
+
+    <h3 class="text-xl font-bold mt-6 mb-2">Generated Description</h3>
+    <div id="output" class="p-4 border rounded-lg min-h-[100px] bg-gray-50 text-gray-700"></div>
+  </div>
 </div>
+
+<script>
+  // 🔹 Firebase Config
+  const firebaseConfig = {
+    apiKey: "YOUR_FIREBASE_API_KEY",
+    authDomain: "YOUR_PROJECT_ID.firebaseapp.com",
+    projectId: "YOUR_PROJECT_ID",
+    storageBucket: "YOUR_PROJECT_ID.appspot.com",
+    messagingSenderId: "SENDER_ID",
+    appId: "APP_ID"
+  };
+  firebase.initializeApp(firebaseConfig);
+  const auth = firebase.auth();
+  const db = firebase.firestore();
+
+  // 🔹 Button Click Event
+  document.getElementById("generateBtn").addEventListener("click", async () => {
+    const hotelName = document.getElementById("hotelName").value;
+    const city = document.getElementById("city").value;
+    const facilities = document.getElementById("facilities").value;
+    const tone = document.getElementById("tone").value;
+
+    if(!hotelName || !city || !facilities || !tone){
+      alert("Please fill all fields");
+      return;
+    }
+
+    const user = auth.currentUser;
+    if(!user){
+      alert("Please login to generate");
+      return;
+    }
+
+    const prompt = `Write an SEO optimized hotel description for "${hotelName}" located in ${city}. Include facilities: ${facilities}. Tone: ${tone}.`;
+
+    // 🔹 Call your backend endpoint for OpenAI
+    try {
+      const response = await fetch("https://YOUR_BACKEND_ENDPOINT/generate", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ prompt, userId: user.uid })
+      });
+      const data = await response.json();
+      const description = data.description;
+
+      document.getElementById("output").innerText = description;
+
+      // 🔹 Save to Firestore history
+      await db.collection("history").add({
+        userId: user.uid,
+        hotelName,
+        city,
+        facilities,
+        tone,
+        description,
+        timestamp: firebase.firestore.FieldValue.serverTimestamp()
+      });
+
+    } catch(err){
+      console.error(err);
+      alert("Error generating description");
+    }
+  });
+</script>
 
 </body>
 </html>
