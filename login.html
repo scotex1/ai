@@ -1,11 +1,16 @@
+
 <!doctype html>
-<html>
+<html lang="en">
 <head>
+  <meta charset="UTF-8">
   <title>Login – ZippyStay AI</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
   <script src="https://cdn.tailwindcss.com"></script>
 </head>
-<body class="bg-gray-100 flex items-center justify-center min-h-screen">
-<!-- NAVBAR -->
+
+<body class="bg-gray-100 min-h-screen">
+
+<!-- NAVBAR (CONNECTED ACROSS ALL PAGES) -->
 <nav class="bg-white shadow sticky top-0 z-50">
   <div class="max-w-7xl mx-auto px-6 py-3 flex items-center justify-between">
 
@@ -15,37 +20,41 @@
     </a>
 
     <!-- LINKS -->
-    <div class="space-x-5 text-gray-700 font-medium">
+    <div class="space-x-6 text-gray-700 font-medium">
       <a href="index.html" class="hover:text-indigo-600">Home</a>
       <a href="dashboard.html" class="hover:text-indigo-600">Dashboard</a>
       <a href="generate.html" class="hover:text-indigo-600">Generate</a>
       <a href="history.html" class="hover:text-indigo-600">History</a>
-      <a href="login.html"
+      <a href="login.html" class="hover:text-indigo-600">Login</a>
+      <a href="signup.html"
          class="bg-indigo-600 text-white px-4 py-2 rounded-lg hover:bg-indigo-700">
-        Login
+        Sign Up
       </a>
     </div>
 
   </div>
 </nav>
 
-<div class="bg-white p-8 rounded-xl shadow-xl w-full max-w-md">
-  <h2 class="text-2xl font-bold mb-6 text-center">Login</h2>
+<!-- LOGIN FORM -->
+<div class="flex items-center justify-center py-20">
+  <div class="bg-white p-8 rounded-xl shadow-xl w-full max-w-md">
+    <h2 class="text-2xl font-bold mb-6 text-center">Login</h2>
 
-  <input type="email" placeholder="Email"
-    class="w-full mb-4 px-4 py-3 border rounded-lg">
+    <input type="email" placeholder="Email"
+      class="w-full mb-4 px-4 py-3 border rounded-lg focus:ring-2 focus:ring-indigo-400">
 
-  <input type="password" placeholder="Password"
-    class="w-full mb-6 px-4 py-3 border rounded-lg">
+    <input type="password" placeholder="Password"
+      class="w-full mb-6 px-4 py-3 border rounded-lg focus:ring-2 focus:ring-indigo-400">
 
-  <button class="w-full bg-indigo-600 text-white py-3 rounded-lg">
-    Login
-  </button>
+    <button class="w-full bg-indigo-600 text-white py-3 rounded-lg hover:bg-indigo-700 transition">
+      Login
+    </button>
 
-  <p class="text-sm text-center mt-4">
-    Don’t have an account?
-    <a href="signup.html" class="text-indigo-600">Create one</a>
-  </p>
+    <p class="text-sm text-center mt-4">
+      Don’t have an account? 
+      <a href="signup.html" class="text-indigo-600 hover:underline">Create one</a>
+    </p>
+  </div>
 </div>
 
 </body>
