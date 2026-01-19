@@ -5,45 +5,48 @@
   <script src="https://cdn.tailwindcss.com"></script>
 </head>
 <body class="bg-gray-100 flex items-center justify-center min-h-screen">
+<!-- NAVBAR -->
+<nav class="bg-white shadow sticky top-0 z-50">
+  <div class="max-w-7xl mx-auto px-6 py-3 flex items-center justify-between">
 
-<div class="bg-white p-8 rounded-xl shadow-xl w-96">
+    <!-- LOGO -->
+    <a href="index.html" class="text-xl font-bold text-indigo-600">
+      ZippyStay AI
+    </a>
+
+    <!-- LINKS -->
+    <div class="space-x-5 text-gray-700 font-medium">
+      <a href="index.html" class="hover:text-indigo-600">Home</a>
+      <a href="dashboard.html" class="hover:text-indigo-600">Dashboard</a>
+      <a href="generate.html" class="hover:text-indigo-600">Generate</a>
+      <a href="history.html" class="hover:text-indigo-600">History</a>
+      <a href="login.html"
+         class="bg-indigo-600 text-white px-4 py-2 rounded-lg hover:bg-indigo-700">
+        Login
+      </a>
+    </div>
+
+  </div>
+</nav>
+
+<div class="bg-white p-8 rounded-xl shadow-xl w-full max-w-md">
   <h2 class="text-2xl font-bold mb-6 text-center">Login</h2>
 
   <input type="email" placeholder="Email"
-    class="w-full mb-4 p-3 border rounded">
+    class="w-full mb-4 px-4 py-3 border rounded-lg">
 
   <input type="password" placeholder="Password"
-    class="w-full mb-4 p-3 border rounded">
+    class="w-full mb-6 px-4 py-3 border rounded-lg">
 
-  <button
-    class="w-full bg-indigo-600 text-white p-3 rounded">
+  <button class="w-full bg-indigo-600 text-white py-3 rounded-lg">
     Login
   </button>
 
-  <p class="text-center text-sm mt-4">
-    New user?
-    <a href="#" class="text-indigo-600">Create account</a>
+  <p class="text-sm text-center mt-4">
+    Don’t have an account?
+    <a href="signup.html" class="text-indigo-600">Create one</a>
   </p>
 </div>
-<div id="navbar"></div>
-
-<script>
-  async function loadNavbar() {
-    const res = await fetch('navbar.html');
-    const html = await res.text();
-    document.getElementById('navbar').innerHTML = html;
-  }
-
-  loadNavbar();
-  function logout() {
-  firebase.auth().signOut().then(() => {
-    window.location.href = 'login.html';
-  }).catch((err) => {
-    console.error(err);
-  });
-}
-
-</script>
 
 </body>
 </html>
