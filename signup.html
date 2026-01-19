@@ -1,3 +1,4 @@
+
 <!doctype html>
 <html lang="en">
 <head>
@@ -5,62 +6,59 @@
   <title>Sign Up – ZippyStay AI</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <script src="https://cdn.tailwindcss.com"></script>
+
+  <!-- Firebase SDKs -->
+  <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-auth-compat.js"></script>
 </head>
+<body class="bg-gray-100 flex items-center justify-center min-h-screen">
 
-<body class="bg-gray-100 min-h-screen">
+<div class="bg-white p-8 rounded-xl shadow-xl w-full max-w-md">
+  <h2 class="text-2xl font-bold mb-6 text-center">Create Account</h2>
 
-<!-- NAVBAR -->
-<nav class="bg-white shadow sticky top-0 z-50">
-  <div class="max-w-7xl mx-auto px-6 py-3 flex items-center justify-between">
+  <input id="email" type="email" placeholder="Email"
+    class="w-full mb-4 px-4 py-3 border rounded-lg">
+  <input id="password" type="password" placeholder="Password"
+    class="w-full mb-6 px-4 py-3 border rounded-lg">
 
-    <!-- LOGO -->
-    <a href="index.html" class="text-xl font-bold text-indigo-600">
-      ZippyStay AI
-    </a>
+  <button id="signupBtn" class="w-full bg-indigo-600 text-white py-3 rounded-lg mb-4">
+    Sign Up
+  </button>
 
-    <!-- LINKS -->
-    <div class="space-x-6 text-gray-700 font-medium">
-      <a href="index.html" class="hover:text-indigo-600">Home</a>
-      <a href="dashboard.html" class="hover:text-indigo-600">Dashboard</a>
-      <a href="generate.html" class="hover:text-indigo-600">Generate</a>
-      <a href="history.html" class="hover:text-indigo-600">History</a>
-      <a href="login.html" class="hover:text-indigo-600">Login</a>
-      <a href="signup.html"
-         class="bg-indigo-600 text-white px-4 py-2 rounded-lg hover:bg-indigo-700">
-        Sign Up
-      </a>
-    </div>
+  <p class="text-sm text-center">
+    Already have an account?
+    <a href="login.html" class="text-indigo-600">Login</a>
+  </p>
 
-  </div>
-</nav>
-
-<!-- SIGNUP FORM -->
-<div class="flex items-center justify-center py-20">
-  <div class="bg-white p-8 rounded-xl shadow-xl w-full max-w-md">
-    <h2 class="text-2xl font-bold mb-6 text-center">Create Account</h2>
-
-    <input type="text" placeholder="Full Name"
-      class="w-full mb-4 px-4 py-3 border rounded-lg focus:ring-2 focus:ring-indigo-400">
-
-    <input type="email" placeholder="Email"
-      class="w-full mb-4 px-4 py-3 border rounded-lg focus:ring-2 focus:ring-indigo-400">
-
-    <input type="password" placeholder="Password"
-      class="w-full mb-4 px-4 py-3 border rounded-lg focus:ring-2 focus:ring-indigo-400">
-
-    <input type="password" placeholder="Confirm Password"
-      class="w-full mb-6 px-4 py-3 border rounded-lg focus:ring-2 focus:ring-indigo-400">
-
-    <button class="w-full bg-indigo-600 text-white py-3 rounded-lg hover:bg-indigo-700 transition">
-      Sign Up
-    </button>
-
-    <p class="text-sm text-center mt-4">
-      Already have an account? 
-      <a href="login.html" class="text-indigo-600 hover:underline">Login here</a>
-    </p>
-  </div>
+  <p id="errorMsg" class="text-red-600 text-center mt-4"></p>
 </div>
+
+<script>
+  // 🔹 Firebase Config
+  const firebaseConfig = {
+    apiKey: "YOUR_FIREBASE_API_KEY",
+    authDomain: "YOUR_PROJECT_ID.firebaseapp.com",
+    projectId: "YOUR_PROJECT_ID",
+    storageBucket: "YOUR_PROJECT_ID.appspot.com",
+    messagingSenderId: "SENDER_ID",
+    appId: "APP_ID"
+  };
+  firebase.initializeApp(firebaseConfig);
+  const auth = firebase.auth();
+
+  // 🔹 Sign Up Function
+  document.getElementById("signupBtn").addEventListener("click", () => {
+    const email = document.getElementById("email").value;
+    const password = document.getElementById("password").value;
+    auth.createUserWithEmailAndPassword(email, password)
+      .then(userCredential => {
+        window.location.href = "dashboard.html";
+      })
+      .catch(error => {
+        document.getElementById("errorMsg").innerText = error.message;
+      });
+  });
+</script>
 
 </body>
 </html>
